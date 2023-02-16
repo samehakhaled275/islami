@@ -1,0 +1,68 @@
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../provider/settings_provider.dart';
+
+class LanguageBottomSheet extends StatefulWidget {
+  @override
+  State<LanguageBottomSheet> createState() => _LanguageBottomSheetState();
+}
+
+class _LanguageBottomSheetState extends State<LanguageBottomSheet> {
+  @override
+  Widget build(BuildContext context) {
+    var settingsProvider = Provider.of<SettingProvider>(context);
+    return Container(
+      padding: EdgeInsets.all(12),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          InkWell(
+            onTap: () {
+              settingsProvider.changeLocale('en');
+            },
+            child: settingsProvider.currentLang == 'en'
+                ? getSelectedItem('English')
+                : getUnSelectedItem('English'),
+          ),
+          SizedBox(
+            height: 12,
+          ),
+          InkWell(
+            onTap: () {
+              settingsProvider.changeLocale('ar');
+            },
+            child: settingsProvider.currentLang == 'ar'
+                ? getSelectedItem('العربية')
+                : getUnSelectedItem('العربية'),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget getSelectedItem(String title) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          title,
+          style: Theme.of(context).textTheme.headline4?.copyWith(
+                color: Theme.of(context).accentColor,
+              ),
+        ),
+        Icon(
+          Icons.check,
+          color: Theme.of(context).accentColor,
+        ),
+      ],
+    );
+  }
+
+  Widget getUnSelectedItem(String title) {
+    return Text(
+      title,
+      style: Theme.of(context).textTheme.headline4,
+    );
+  }
+}
